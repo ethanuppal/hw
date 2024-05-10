@@ -1,8 +1,9 @@
 module tb;
     reg clk;
-    wire led;
+    wire[2:0] east_west;
+    wire[2:0] north_south;
 
-    blinker blnk(clk, led);
+    traffic_light tl(clk, east_west, north_south);
 
     initial begin 
         clk = 0;
@@ -10,12 +11,12 @@ module tb;
     end
 
     initial begin 
-        $dumpfile("blinker.vcd");
+        $dumpfile("traffic_light.vcd");
         $dumpvars(0, tb);
     end
 
     initial begin
-        #20;
+        #25;
         $finish;
     end
 endmodule
