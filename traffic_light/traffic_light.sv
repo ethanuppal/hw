@@ -15,7 +15,6 @@ module light_controller(input wire clk, input wire next, output reg green,
     parameter RG = 2'b10;
     parameter RY = 2'b11;
 
-    // AF: a 2-bit state is XY where X is the color of the east-west light and Y is the color of the north-south light
     reg[1:0] scur, snext;
 
     initial begin
