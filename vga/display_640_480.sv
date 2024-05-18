@@ -1,8 +1,6 @@
 // Source for timings: http://martin.hinner.info/vga/timing.html
 // 640x480, 60Hz
 
-`timescale 1ps/1ps
-
 module display_640_480(input wire clk, input wire reset, output logic h_sync, 
     output logic v_sync, output logic[9:0] s_x, 
     output logic[9:0] s_y, output logic data_enable);
@@ -29,13 +27,18 @@ module display_640_480(input wire clk, input wire reset, output logic h_sync,
     parameter V_SYNC_START = V_BLANK_START + V_FRONT_PORCH;
     parameter V_SYNC_END = V_SYNC_START + V_SYNC_PULSE;
 
+    initial begin 
+        s_x = 0;
+        s_y = 0;
+    end
+
     always_comb begin
         h_sync = ~(s_x >= H_SYNC_START && s_x < H_SYNC_END);
         v_sync = ~(s_y >= V_SYNC_START && s_y < V_SYNC_END);
         data_enable = s_x < H_BLANK_START && s_y < V_BLANK_START;
     end
 
-    always_ff @(posedge clk) begin
+    always @(posedge clk) begin
         if (s_x == H_BLANK_END) begin
             s_x <= 0;
             s_y <= (s_y == V_BLANK_END) ? 0 : (s_y + 1);  
